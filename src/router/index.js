@@ -10,6 +10,9 @@ Vue.use(VueRouter)
 import Home from '../views/Home.vue'
 import User from '../views/User.vue'
 import Main from '../views/Main.vue'
+import Mall from '../views/Mall.vue'
+import pageOne from '../views/pageOne.vue'
+import pageTwo from '../views/pageTwo.vue'
 
 // 2. 定义路由
 // 每个路由应该映射一个组件。 其中"component" 可以是
@@ -18,10 +21,14 @@ const routes = [
     {
         path: '/',
         component: Main,
+        redirect: '/home', //重定向到home
         // 嵌套路由（子路由）
         children: [
             { path: 'home', component: Home }, //  /home中的斜杠可以去掉
-            { path: 'user', component: User }
+            { path: 'user', component: User },
+            { path: 'mall', component: Mall },
+            { path: 'page1', component: pageOne },
+            { path: 'page2', component: pageTwo },
         ]
     }
 ]
