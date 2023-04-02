@@ -1,15 +1,27 @@
 <template>
   <div class="header-container">
     <div class="l-content">
-      <el-button @click="handleClickMeny" icon="el-icon-menu" size="mini"></el-button>
+      <el-button
+        @click="handleClickMeny"
+        icon="el-icon-menu"
+        size="mini"
+        style="margin-right: 10px"
+      ></el-button>
 
       <!-- 面包屑 -->
-      <span class="text">首页</span>
+      <el-breadcrumb separator="/">
+        <el-breadcrumb-item
+          v-for="item in tags"
+          :key="item.path"
+          :to="{ path: item.path }"
+          >{{ item.label }}</el-breadcrumb-item
+        >
+      </el-breadcrumb>
     </div>
     <div class="r-content">
       <el-dropdown>
         <span class="el-dropdown-link">
-            <img class="image" src="../assets/user.png" alt="">
+          <img class="image" src="../assets/user.png" alt="" />
         </span>
         <el-dropdown-menu slot="dropdown">
           <el-dropdown-item>个人中心</el-dropdown-item>
@@ -21,21 +33,25 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
 export default {
-    data() {
-        return {
-            
-        }
+  data() {
+    return {};
+  },
+  methods: {
+    handleClickMeny() {
+      this.$store.commit("collapseMenu");
     },
-    methods: {
-        handleClickMeny(){
-            this.$store.commit('collapseMenu')
-        }
-    },
+  },
+  computed: {
+    ...mapState({
+      tags: (state) => state.tab.tabsList,
+    }),
+  },
 };
 </script>
 
-<style lang="less" scope>
+<style lang="less" scoped>
 .header-container {
   background-color: #333;
   height: 60px;
@@ -46,16 +62,23 @@ export default {
   align-items: center;
   box-sizing: border-box;
   padding: 0 20px;
-  .text {
-    color: #fff;
-    font-size: 14px;
-    margin-left: 20px;
+  .l-content {
+    display: flex;
+    align-items: center;
+    // vue样式穿透
+    /deep/ .el-breadcrumb__item {
+      .el-breadcrumb__inner {
+        &.is-link {
+          color: #fff;
+        }
+      }
+    }
   }
-  .r-content{
-    .image{
-        width: 40px;
-        height: 40px;
-        border-radius: 50%;
+  .r-content {
+    .image {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
     }
   }
 }
