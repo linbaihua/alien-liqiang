@@ -26,6 +26,11 @@ export default {
                     state.tabsList.push(val)
                 }
             }
+        },
+        // 删除指定的tag数据
+        closeTag(state, tag) {
+            const index = state.tabsList.findIndex(element => element.name === tag.name)
+            state.tabsList.splice(index, 1)
         }
     }
 }
