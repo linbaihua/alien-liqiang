@@ -1,5 +1,5 @@
 <template>
-  <el-form :model="ruleForm" :rules="rules" class="login" :inline="true">
+  <el-form ref="ruleForm" :model="ruleForm" :rules="rules" class="login" :inline="true">
     <h1 class="login_title">系统登录</h1>
     <el-form-item label="账号名称" prop="username">
       <el-input v-model="ruleForm.username" placeholder="请输入账号"></el-input>
@@ -8,13 +8,15 @@
       <el-input type="password" v-model="ruleForm.password" placeholder="请输入密码"></el-input>
     </el-form-item>
     <el-form-item class="denglu">
-      <el-button type="primary">登录</el-button>
+      <el-button type="primary" @click="submit">登录</el-button>
     </el-form-item>
   </el-form>
 </template>
 
 <script>
 import Mock from 'mockjs'
+import Cookie from 'js-cookie'
+import { getMenu } from '../api'
 export default {
   data() {
     return {
@@ -29,7 +31,31 @@ export default {
       }
     }
   },
-  methods: {}
+  methods: {
+    // 登录按钮
+    submit() {
+      // 校验通过
+      this.$refs.ruleForm.validate(valid => {
+        if (valid) {
+          getMenu(this.ruleForm).then(({ data }) => {
+            console.log(data)
+            if (data.code === 20000) {
+              // token信息存入cookie用于不同页面间的通信
+              Cookie.set('token', data.data.token)
+
+              // 获取菜单的数据，存入store中
+              this.$store.commit('setMenu', data.data.menu)
+              this.$store.commit('addMenu', this.$router)
+              // 跳转到首页
+              this.$router.push('/home')
+            } else {
+              this.$message.error(data.data.message)
+            }
+          })
+        }
+      })
+    }
+  }
 }
 </script>
 
