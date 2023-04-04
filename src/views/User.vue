@@ -4,7 +4,7 @@
       <el-button type="primary" @click="handleAdd">+ 新增</el-button>
       <el-form :model="userForm" :inline="true" class="demo-form-inline">
         <el-form-item style="margin-bottom: 0px">
-          <el-input placeholder="请输入名称" v-model="userForm.name"></el-input>
+          <el-input placeholder="请输入名称" v-model="userForm.name" @keyup.enter.native="onSubmit"></el-input>
         </el-form-item>
         <el-form-item style="margin-bottom: 0px">
           <el-button type="primary" @click="onSubmit">查询</el-button>
@@ -32,7 +32,7 @@
       <el-pagination layout="prev, pager, next" :total="total" @current-change="handlePage"> </el-pagination>
     </div>
     <el-dialog title="提示" :visible.sync="dialogVisible" width="50%" :before-close="handleClose">
-      <el-form ref="form" :inline="true" :rules="rules" :model="form" label-width="80px">
+      <el-form ref="form" :inline="true" :rules="rules" :model="form" label-width="80px" @keyup.enter.native="submitForm('form')">
         <el-form-item label="姓名" prop="name">
           <el-input v-model="form.name" placeholder="请输入姓名"></el-input>
         </el-form-item>
@@ -111,7 +111,7 @@ export default {
     submitForm(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
-          // 后续对表单数据的处理
+          //后续对表单数据的处理
           if (this.modalType === 0) {
             addUser(this.form).then(() => {
               // 重新获取列表的接口
@@ -123,9 +123,9 @@ export default {
               this.getList()
             })
           }
+          this.$refs[formName].resetFields() //重置内容
+          this.dialogVisible = false //关闭弹窗
         }
-        this.$refs[formName].resetFields() //重置内容
-        this.dialogVisible = false //关闭弹窗
       })
     },
     // 重置表单

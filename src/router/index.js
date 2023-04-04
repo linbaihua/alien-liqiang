@@ -21,14 +21,15 @@ const routes = [
   {
     path: '/',
     component: Main,
+    name: 'Main',
     redirect: '/home', //重定向到home
     // 嵌套路由（子路由）
     children: [
-      { path: 'home', name: 'home', component: Home }, //  /home中的斜杠可以去掉
-      { path: 'user', name: 'user', component: User },
-      { path: 'mall', name: 'mall', component: Mall },
-      { path: 'page1', name: 'page1', component: pageOne },
-      { path: 'page2', name: 'page2', component: pageTwo }
+      //   { path: 'home', name: 'home', component: Home }, //  /home中的斜杠可以去掉
+      //   { path: 'user', name: 'user', component: User },
+      //   { path: 'mall', name: 'mall', component: Mall },
+      //   { path: 'page1', name: 'page1', component: pageOne },
+      //   { path: 'page2', name: 'page2', component: pageTwo }
     ]
   },
   {
